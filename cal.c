@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#define 100
+// initial commit
 int main() {
     char operator;
     double num1, num2, result;
