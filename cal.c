@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#define square 100;
+// added a command line
 int main() {
     char operator;
     double num1, num2, result;
