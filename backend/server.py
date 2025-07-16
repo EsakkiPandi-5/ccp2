@@ -86,7 +86,7 @@ Be accurate and prioritize safety."""
         api_key=GEMINI_API_KEY,
         session_id=session_id,
         system_message=system_message
-    ).with_model("gemini", "gemini-2.5-pro-preview-05-06")
+    ).with_model("gemini", "gemini-1.5-flash")
 
 @app.get("/")
 async def root():
