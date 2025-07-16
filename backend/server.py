@@ -125,17 +125,30 @@ async def analyze_drowsiness(request: DrownsinessAnalysisRequest):
             
             # Parse response (assuming JSON format)
             import json
+            import re
             try:
+                # Try to parse as direct JSON first
                 analysis_data = json.loads(response)
             except json.JSONDecodeError:
-                # If not JSON, create structured response
-                analysis_data = {
-                    "is_drowsy": "drowsy" in response.lower() or "sleepy" in response.lower() or "tired" in response.lower(),
-                    "confidence": 0.7,
-                    "details": response,
-                    "warning_level": "MEDIUM",
-                    "recommendations": ["Take a break", "Rest your eyes", "Get some fresh air"]
-                }
+                # If not direct JSON, try to extract JSON from markdown code blocks
+                json_match = re.search(r'```json\s*(\{.*?\})\s*```', response, re.DOTALL)
+                if json_match:
+                    try:
+                        analysis_data = json.loads(json_match.group(1))
+                    except json.JSONDecodeError:
+                        analysis_data = None
+                else:
+                    analysis_data = None
+                
+                # If still no valid JSON, create structured response
+                if not analysis_data:
+                    analysis_data = {
+                        "is_drowsy": "drowsy" in response.lower() or "sleepy" in response.lower() or "tired" in response.lower(),
+                        "confidence": 0.7,
+                        "details": response,
+                        "warning_level": "MEDIUM",
+                        "recommendations": ["Take a break", "Rest your eyes", "Get some fresh air"]
+                    }
             
             # Save analysis to database
             analysis_record = {
