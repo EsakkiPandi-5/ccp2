@@ -23,7 +23,7 @@ def create_test_image():
     
     # Draw a simple face
     # Head circle
-    draw.ellipse([50, 50, 150, 150], fill='peach', outline='black')
+    draw.ellipse([50, 50, 150, 150], fill='#FFDBAC', outline='black')
     # Eyes
     draw.ellipse([70, 80, 85, 95], fill='white', outline='black')
     draw.ellipse([115, 80, 130, 95], fill='white', outline='black')
